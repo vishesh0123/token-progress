@@ -9,7 +9,10 @@ function App() {
   return (
     <>
       {!submitted && <TokenTransferForm setSubmitted={setSubmitted} />}
-      {submitted && <ProgressBar token={submitted.tokenAddress} user={submitted.userAddress} />}
+      {submitted && <ProgressBar
+        token={submitted.tokenAddress}
+        user={submitted.userAddress}
+        textt={submitted.customText} />}
     </>
 
   )

@@ -3,9 +3,9 @@ import { TextField, IconButton, InputAdornment, LinearProgress, Typography, Box 
 import EditIcon from '@mui/icons-material/Edit';
 import { ethers } from 'ethers';
 
-function ProgressBar({ token, user }) {
+function ProgressBar({ token, user, textt }) {
     const [isEditing, setIsEditing] = useState(false);
-    const [text, setText] = useState('ERC20 TOKEN PROGRESS');
+    const [text, setText] = useState(textt);
     const [progress, setProgress] = useState(0);
 
     const handleEditClick = () => {
@@ -59,9 +59,9 @@ function ProgressBar({ token, user }) {
             {!isEditing ? (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <span style={{ marginRight: '8px', color: 'black', fontWeight: 'bold', fontSize: 20 }}>{text}</span>
-                    <IconButton onClick={handleEditClick} size="small">
+                    {/* <IconButton onClick={handleEditClick} size="small">
                         <EditIcon fontSize="small" />
-                    </IconButton>
+                    </IconButton> */}
                 </div>
             ) : (
                 <TextField

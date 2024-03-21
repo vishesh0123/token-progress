@@ -4,6 +4,7 @@ import { Button, TextField, Typography, Box } from '@mui/material';
 const TokenTransferForm = ({ setSubmitted }) => {
     const [tokenAddress, setTokenAddress] = useState('');
     const [userAddress, setUserAddress] = useState('');
+    const [customText, setCustomText] = useState('');
 
 
     const handleTokenAddressChange = (event) => {
@@ -14,13 +15,17 @@ const TokenTransferForm = ({ setSubmitted }) => {
         setUserAddress(event.target.value);
     }
 
+    const handleCustomTextChange = (event) => {
+        setCustomText(event.target.value);
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         if (!tokenAddress) {
             alert('All fields are required!');
             return;
         }
-        setSubmitted({ tokenAddress, userAddress });
+        setSubmitted({ tokenAddress, userAddress, customText });
     };
 
     return (
@@ -49,6 +54,13 @@ const TokenTransferForm = ({ setSubmitted }) => {
                 variant="outlined"
                 onChange={handleUserAddressChange}
                 value={userAddress}
+                required
+            />
+            <TextField
+                label="Custom Text"
+                variant="outlined"
+                onChange={handleCustomTextChange}
+                value={customText}
                 required
             />
             <Button
