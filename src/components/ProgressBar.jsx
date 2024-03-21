@@ -55,7 +55,7 @@ function ProgressBar({ token, user }) {
     }, [token])
 
     return (
-        <div>
+        <div style={{ width: '500px', height: '150px', border: '3px solid black', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             {!isEditing ? (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <span style={{ marginRight: '8px', color: 'black', fontWeight: 'bold', fontSize: 20 }}>{text}</span>
@@ -88,7 +88,7 @@ function ProgressBar({ token, user }) {
                     value={progress}
                     sx={{
                         mt: 3,
-                        width: '800px',
+                        width: '400px',
                         height: 25,
                         borderRadius: 1,
                         backgroundColor: 'rgba(0, 0, 0, 0.1)', // Light background for progress track
@@ -104,7 +104,7 @@ function ProgressBar({ token, user }) {
                     }}
                 />
             </Box>
-            <Typography sx={{ mt: 2, color: 'black', fontWeight: 'bold' }} variant="body2">{`${Math.round(progress)}%`}</Typography>
+            <Typography sx={{ mt: 2, color: 'black', fontWeight: 'bold' }} variant="body2">{`${Math.round(progress)}% REMAINING`}</Typography>
 
         </div>
     );
