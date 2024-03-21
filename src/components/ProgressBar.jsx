@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { TextField, IconButton, InputAdornment, LinearProgress, Typography } from '@mui/material';
+import { TextField, IconButton, InputAdornment, LinearProgress, Typography, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { ethers } from 'ethers';
 
@@ -26,21 +26,22 @@ function ProgressBar({ token, user }) {
         const erc20Abi = [
             "function transfer(address to, uint amount) returns (bool success)",
             "function decimals() view returns (uint8)",
-            "function balanceOf(address owner) view returns (uint balance)"
+            "function balanceOf(address owner) view returns (uint balance)",
+            "function totalSupply() view returns (uint256)"
         ];
+
 
         const provider = new ethers.JsonRpcProvider('https://base-rpc.publicnode.com')
         // const provider = new ethers.JsonRpcProvider('https://base-sepolia-rpc.publicnode.com')
         const erc20 = new ethers.Contract(token, erc20Abi, provider)
         const decimals = await erc20.decimals()
-        const initialBalance = await erc20.balanceOf(user);
-        const formattedBalance = ethers.formatUnits(initialBalance, decimals);
+        const initialSupply = await erc20.totalSupply()
+        const formattedSupply = ethers.formatUnits(initialSupply, decimals);
 
         const intervalId = setInterval(async () => {
             const newBalance = await erc20.balanceOf(user);
             const newFormattedBalance = ethers.formatUnits(newBalance, decimals);
-            const diff = formattedBalance - newFormattedBalance;
-            const newProgress = (diff / formattedBalance) * 100;
+            const newProgress = (newFormattedBalance / formattedSupply) * 100;
             setProgress(newProgress);
             console.log('newProgress', newProgress);
         }, 1000);
@@ -81,7 +82,28 @@ function ProgressBar({ token, user }) {
                     autoFocus
                 />
             )}
-            <LinearProgress variant="determinate" value={progress} style={{ width: '800px', height: '20px', marginTop: 20 }} />
+            <Box sx={{ padding: 0 }}>
+                <LinearProgress
+                    variant="determinate"
+                    value={progress}
+                    sx={{
+                        mt: 3,
+                        width: '800px',
+                        height: 25,
+                        borderRadius: 1,
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)', // Light background for progress track
+                        '& .MuiLinearProgress-bar': {
+                            borderRadius: 1,
+                            backgroundColor: '#4caf50', // A green color for the progress indicator
+                            boxShadow: `
+              inset 0 2px 4px rgba(255, 255, 255, 0.3), // Soft white glow
+              inset 0 -2px 4px rgba(0, 0, 0, 0.1)      // Subtle inner shadow for depth
+            `,
+                            transition: 'width 0.4s ease-in-out',
+                        },
+                    }}
+                />
+            </Box>
             <Typography sx={{ mt: 2, color: 'black', fontWeight: 'bold' }} variant="body2">{`${Math.round(progress)}%`}</Typography>
 
         </div>
